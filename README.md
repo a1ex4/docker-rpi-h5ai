@@ -29,9 +29,11 @@ services:
   fileserver:
     container_name: fileserver
     image: a1ex4/rpi-h5ai
-    volumes:
-      - /path/to/files:/var/www/html/files:ro
     ports:
       - "8080:80"
+    volumes:
+      - /path/to/files:/var/www/html/files:ro
+    restart: always
+      
 ```
 
