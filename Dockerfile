@@ -1,5 +1,5 @@
-FROM php:7.0-apache
-MAINTAINER Carles Amigó, fr3nd@fr3nd.net
+FROM arm32v7/php:7.1-apache
+MAINTAINER a1ex, github.com/a1ex4
 
 RUN apt-get update && apt-get install -y \
       imagemagick \
@@ -18,14 +18,14 @@ RUN apt-get update && apt-get install -y \
       docker-php-ext-install gd && \
       docker-php-ext-install exif
 
-ENV H5AI_VERSION 0.28.1
+ENV H5AI_VERSION 0.29
 ENV PREFIX=""
 
 RUN curl -L https://release.larsjung.de/h5ai/h5ai-${H5AI_VERSION}.zip > /usr/src/h5ai-${H5AI_VERSION}.zip && \
     unzip /usr/src/h5ai-${H5AI_VERSION}.zip && \
     rm -f /usr/src/h5ai-${H5AI_VERSION}.zip
 COPY class-setup.patch /usr/src/class-setup.patch
-# patch to add prefix tobe used in reverse proxy
+# patch to add prefix to be used in reverse proxy
 RUN patch -p1 /var/www/html/_h5ai/private/php/core/class-setup.php /usr/src/class-setup.patch
 COPY h5ai.conf /etc/apache2/conf-enabled/h5ai.conf
 COPY options.json /var/www/html/_h5ai/private/conf/options.json
