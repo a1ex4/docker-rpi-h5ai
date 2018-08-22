@@ -1,4 +1,5 @@
-# h5ai Docker image
+# h5ai Raspberry Pi Docker image
+This docker image is an adaptation of [fr3nd/docker-h5ai](https://github.com/fr3nd/docker-h5ai) to allow it to run out of the box on a armhf architecture, tested on a Raspberry 3.
 
 ## Description
 
@@ -12,10 +13,25 @@ This image allows you to run h5ai in a Docker container.
 ## How to run it
 
 Just mount the directories you want to show and make sure they are accessible:
-
+### Using docker run
 ```
 docker run \
    -p 8080:80 \
-   -v /home/user/:/var/www/html/user_home:ro \
-   fr3nd/h5ai
+   -v /path/to/files:/var/www/html/files:ro \
+   a1ex4/rpi-h5ai
 ```
+
+### Using docker compose
+```
+version: '2'
+
+services:
+  fileserver:
+    container_name: fileserver
+    image: a1ex4/rpi-h5ai
+    volumes:
+      - /path/to/files:/var/www/html/files:ro
+    ports:
+      - "8080:80"
+```
+
